@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 const schema = z
   .object({
@@ -58,7 +59,7 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
         data
       );
 
-      setMessage("Success! Redirecting...");
+      toast.success("Success! Redirecting...");
       if (type == "login" && window !== undefined) {
         localStorage.setItem(
           "accessToken",

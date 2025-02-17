@@ -3,11 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = context.params; // ✅ Awaiting params properly
-    const user = await query("SELECT * FROM users WHERE id = $1", [id]);
+    const user = await query("SELECT * FROM users WHERE id = $1", [params.id]);
 
     if (user.length === 0) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -25,11 +24,10 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = context.params; // ✅ Awaiting params properly
-    const body = await req.text(); // 🔍 Debugging request body
+    const body = await req.json();
     console.log("Raw Request Body:", body);
 
     if (!body) {
@@ -48,11 +46,9 @@ export async function PUT(
       );
     }
 
-    console.log(name, email, photo, id);
-
     const updatedUser = await query(
       "UPDATE users SET name = $1, email = $2, photo= $3 WHERE id = $4 RETURNING *",
-      [name, email, photo, id]
+      [name, email, photo, params.id]
     );
 
     if (updatedUser.length === 0) {
@@ -71,14 +67,12 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = context.params; // ✅ Awaiting params properly
-
     const deletedUser = await query(
       "DELETE FROM users WHERE id = $1 RETURNING *",
-      [id]
+      [params.id]
     );
 
     if (deletedUser.length === 0) {

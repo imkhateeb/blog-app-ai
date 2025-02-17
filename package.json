@@ -22,6 +22,7 @@
     "framer-motion": "^12.4.3",
     "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "pg": "^8.13.3",
     "react": "^19.0.0",
