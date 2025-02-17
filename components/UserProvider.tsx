@@ -3,14 +3,15 @@
 import { ReactNode, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { User } from "@/types";
+
 const UserProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const getUser = async (userId: string) => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`
     );
-    console.log(response.data);
-    if (response?.data?.role === "admin") {
+    if ((response.data as User)?.role === "admin") {
       router.push("/admin");
     }
   };

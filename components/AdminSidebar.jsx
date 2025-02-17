@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Users, MessageSquare } from "lucide-react";
