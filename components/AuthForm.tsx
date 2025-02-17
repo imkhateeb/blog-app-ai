@@ -98,7 +98,7 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
               <input
                 type="text"
                 {...register("name")}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               />
               {errors.name && (
                 <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -109,7 +109,7 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
               <label className="block text-sm font-medium">Role</label>
               <select
                 {...register("role")}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
@@ -126,7 +126,7 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
           <input
             type="email"
             {...register("email")}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
           />
           {errors.email && (
             <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -138,7 +138,7 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
           <input
             type="password"
             {...register("password")}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
           />
           {errors.password && (
             <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -148,7 +148,7 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+          className="w-full bg-black text-white py-2 rounded-lg hover:bg-black/80 disabled:bg-gray-400"
         >
           {loading ? "Processing..." : type === "login" ? "Sign In" : "Sign Up"}
         </button>
