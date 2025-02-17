@@ -39,8 +39,22 @@ const AllBlogs = () => {
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex justify-between">
-        <h1>All Blogs</h1>
-        <Link href="/blogs/add">Create Blog</Link>
+        <div className="flex items-end gap-2">
+          <h1 className="text-2xl font-bold">All Blogs</h1>
+          <p className="text-sm text-gray-500">{blogs.length} blogs found</p>
+        </div>
+        <Link
+          href="/blogs/add"
+          className="py-1.5 px-4 rounded-full bg-black text-white active:scale-95 transition-all"
+        >
+          Create Blog
+        </Link>
+      </div>
+      <div>
+        <input
+          className="py-1.5 px-2 rounded-lg focus:ring-2 ring-black outline-none border-[2px] border-gray-300 text-md w-[300px]"
+          placeholder="Search your blog..."
+        />
       </div>
       <ul className="flex flex-col gap-4">
         {blogs?.map(

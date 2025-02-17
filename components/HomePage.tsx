@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 const HomePage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white px-6">
+    <div className="flex flex-col items-center justify-center min-h-[91.5vh] bg-black text-white px-6">
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

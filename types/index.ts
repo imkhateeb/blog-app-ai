@@ -5,6 +5,7 @@ export type User = {
   password: string;
   created_at: string;
   updated_at: string;
+  photo: string;
   role: "user" | "admin";
   is_active: boolean;
   refresh_token: string | null;

@@ -1,32 +1,46 @@
 import { query } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
-    const user = await query("SELECT * FROM users WHERE id = " + params.id);
+    const { id } = context.params; // ✅ Awaiting params properly
+    const user = await query("SELECT * FROM users WHERE id = $1", [id]);
+
+    if (user.length === 0) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     return NextResponse.json(user[0]);
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching user:", error);
     return NextResponse.json(
-      {
-        error: "Failed to fetch user",
-      },
-      {
-        status: 500,
-      }
+      { error: "Failed to fetch user" },
+      { status: 500 }
     );
   }
 }
 
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
-    const { name, email } = await req.json();
+    const { id } = context.params; // ✅ Awaiting params properly
+    const body = await req.text(); // 🔍 Debugging request body
+    console.log("Raw Request Body:", body);
+
+    if (!body) {
+      return NextResponse.json(
+        { error: "Empty request body" },
+        { status: 400 }
+      );
+    }
+
+    const { name, email, photo } = JSON.parse(body);
+
     if (!name || !email) {
       return NextResponse.json(
         { error: "Name and email required" },
@@ -34,14 +48,20 @@ export async function PUT(
       );
     }
 
+    console.log(name, email, photo, id);
+
     const updatedUser = await query(
-      "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *",
-      [name, email, params.id]
+      "UPDATE users SET name = $1, email = $2, photo= $3 WHERE id = $4 RETURNING *",
+      [name, email, photo, id]
     );
+
+    if (updatedUser.length === 0) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
 
     return NextResponse.json(updatedUser[0]);
   } catch (error) {
-    console.log(error);
+    console.error("Error updating user:", error);
     return NextResponse.json(
       { error: "Failed to update user" },
       { status: 500 }
@@ -50,13 +70,27 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
-    await query("DELETE FROM users WHERE id = $1", [params.id]);
+    const { id } = context.params; // ✅ Awaiting params properly
+
+    const deletedUser = await query(
+      "DELETE FROM users WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    if (deletedUser.length === 0) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     return NextResponse.json({ message: "User deleted" }, { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.error("Error deleting user:", error);
+    return NextResponse.json(
+      { error: "Failed to delete user" },
+      { status: 500 }
+    );
   }
 }

@@ -28,9 +28,13 @@ const ThumbnailUploader = ({
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await axios.post("/api/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/upload`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
 
         const imageUrl = (response.data as { url: string }).url;
         onUpload(imageUrl);
