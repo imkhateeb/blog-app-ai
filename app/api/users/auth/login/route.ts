@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     const accessToken = jwt.sign(
       { id: user[0].id, email: user[0].email },
       secret,
-      { expiresIn: "15m" }
+      { expiresIn: "15d" }
     );
     const refreshToken = jwt.sign({ id: user[0].id }, secret, {
       expiresIn: "7d",
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
       user[0].id,
     ]);
 
-    return NextResponse.json({ accessToken, refreshToken });
+    return NextResponse.json({ accessToken, refreshToken, userId: user[0].id });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: "Login failed" }, { status: 500 });

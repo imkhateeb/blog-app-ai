@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const schema = z
   .object({
@@ -31,6 +32,14 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
   const [message, setMessage] = useState("");
   const router = useRouter();
 
+  useEffect(() => {
+    if (window !== undefined) {
+      if (localStorage.getItem("accessToken")) {
+        router.push("/blogs");
+      }
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -44,14 +53,26 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
     setMessage("");
 
     try {
-      const respose = await axios.post(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/users/auth/${type}`,
         data
       );
 
-      console.log(respose);
       setMessage("Success! Redirecting...");
-      router.push("/blogs");
+      if (type == "login" && window !== undefined) {
+        localStorage.setItem(
+          "accessToken",
+          response.data?.accessToken as string
+        );
+        localStorage.setItem(
+          "refreshToken",
+          response.data?.refreshToken as string
+        );
+        localStorage.setItem("userId", response.data?.userId as string);
+        router.push("/blogs");
+      } else {
+        router.push("/sign-in");
+      }
     } catch (err: unknown) {
       if (err instanceof Error) {
         setMessage(err.message);
@@ -64,8 +85,8 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold text-center mb-4">
+    <div className="w-[350px] mx-auto bg-white p-6 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold mb-4">
         {type === "login" ? "Sign In" : "Sign Up"}
       </h2>
 
@@ -134,6 +155,16 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
       </form>
 
       {message && <p className="text-center text-red-500 mt-3">{message}</p>}
+
+      {type === "login" ? (
+        <p className="text-center text-sm mt-3">
+          Don't have an account? <Link href="/sign-up">Sign Up</Link>
+        </p>
+      ) : (
+        <p className="text-center text-sm mt-3">
+          Already have an account? <Link href="/sign-in">Sign In</Link>
+        </p>
+      )}
     </div>
   );
 }

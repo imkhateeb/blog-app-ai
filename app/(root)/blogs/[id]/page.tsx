@@ -1,5 +1,11 @@
-const BlogPage = () => {
-  return <div>BlogPage</div>;
+import BlogDetails from "@/components/BlogDetails";
+
+const BlogDetail = () => {
+  return (
+    <div>
+      <BlogDetails />
+    </div>
+  );
 };
 
-export default BlogPage;
+export default BlogDetail;
