@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import ThumbnailUploader from "./ThumbnailUploader";
 
 const AddBlog = () => {
   const [title, setTitle] = useState("");
@@ -12,6 +13,7 @@ const AddBlog = () => {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,6 +38,7 @@ const AddBlog = () => {
           content,
           author_id,
           published: true,
+          thumbnail: thumbnailUrl,
         },
         {
           headers: {
@@ -77,6 +80,10 @@ const AddBlog = () => {
     }
   };
 
+  const handleThumbnailUpload = (url: string) => {
+    setThumbnailUrl(url);
+  };
+
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-sm flex flex-col min-h-[90vh] justify-center w-full">
       <h2 className="text-2xl font-semibold mb-4">Create a New Blog Post</h2>
@@ -100,6 +107,7 @@ const AddBlog = () => {
             className="border border-gray-300 rounded-md p-2"
           />
         </div>
+        <ThumbnailUploader onUpload={handleThumbnailUpload} />
         <button
           disabled={generating}
           type="button"

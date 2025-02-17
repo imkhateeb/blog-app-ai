@@ -18,6 +18,7 @@ export type Post = {
   published: boolean;
   created_at: string;
   updated_at: string;
+  thumbnail: string;
 };
 
 export type Comment = {

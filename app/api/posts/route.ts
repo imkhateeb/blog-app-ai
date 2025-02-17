@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { title, content, author_id, published } = await req.json();
+    const { title, content, author_id, published, thumbnail } =
+      await req.json();
     if (!title || !content || !author_id) {
       return NextResponse.json(
         { error: "Title, content, and author_id are required" },
@@ -12,8 +13,8 @@ export async function POST(req: Request) {
     }
 
     const newPost = await query(
-      "INSERT INTO posts (title, content, author_id, published) VALUES ($1, $2, $3, $4) RETURNING *",
-      [title, content, author_id, published]
+      "INSERT INTO posts (title, content, author_id, published, thumbnail) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [title, content, author_id, published, thumbnail]
     );
 
     return NextResponse.json(newPost[0]);
