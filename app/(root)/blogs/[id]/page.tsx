@@ -1,9 +1,10 @@
 import BlogDetails from "@/components/BlogDetails";
 
-const BlogDetail = () => {
+const BlogDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
   return (
     <div>
-      <BlogDetails />
+      <BlogDetails id={id} />
     </div>
   );
 };

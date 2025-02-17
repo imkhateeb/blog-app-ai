@@ -2,9 +2,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
+import { Post } from "@/types";
+import BlogCard from "./BlogCard";
 
 const AllBlogs = () => {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,7 +21,7 @@ const AllBlogs = () => {
             },
           }
         );
-        setBlogs(res.data);
+        setBlogs(res.data as Post[]);
       } catch (error) {
         console.error("Failed to fetch blogs:", error);
       } finally {
@@ -34,14 +37,32 @@ const AllBlogs = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div>
-      <h1>All Blogs</h1>
-      <ul>
-        {blogs?.map((blog: { id: string; title: string }) => (
-          <li key={blog.id}>
-            <Link href={`/blogs/${blog.id}`}>{blog.title}</Link>
-          </li>
-        ))}
+    <div className="flex flex-col gap-4 p-4">
+      <div className="flex justify-between">
+        <h1>All Blogs</h1>
+        <Link href="/blogs/add">Create Blog</Link>
+      </div>
+      <ul className="flex flex-col gap-4">
+        {blogs?.map(
+          (blog: {
+            id: number;
+            title: string;
+            content: string;
+            author_id: number;
+            created_at: string;
+            updated_at: string;
+          }) => (
+            <BlogCard
+              key={blog.id}
+              title={blog.title}
+              content={blog.content}
+              author_id={blog.author_id}
+              created_at={blog.created_at}
+              updated_at={blog.updated_at}
+              blog_id={blog.id}
+            />
+          )
+        )}
       </ul>
     </div>
   );

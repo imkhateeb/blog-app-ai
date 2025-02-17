@@ -3,12 +3,16 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const AddBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +45,8 @@ const AddBlog = () => {
       );
       setTitle("");
       setContent("");
-      alert("Blog Post Created!");
+      toast.success("Blog Post Created!");
+      router.push("/blogs");
     } catch (err: unknown) {
       console.log(err);
       setError("Failed to create blog post");
@@ -50,8 +55,30 @@ const AddBlog = () => {
     }
   };
 
+  const handleGenerate = async () => {
+    if (!title) {
+      toast.error("Title is required");
+      return;
+    }
+    setGenerating(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/generate`,
+        { title }
+      );
+      console.log(response);
+      toast.success("Blog post generated successfully");
+      setContent(response.data as string);
+    } catch (err: unknown) {
+      console.log(err);
+      toast.error("Failed to generate blog post");
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-sm flex flex-col min-h-[100vh] justify-center w-full">
+    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-sm flex flex-col min-h-[90vh] justify-center w-full">
       <h2 className="text-2xl font-semibold mb-4">Create a New Blog Post</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
@@ -73,6 +100,14 @@ const AddBlog = () => {
             className="border border-gray-300 rounded-md p-2"
           />
         </div>
+        <button
+          disabled={generating}
+          type="button"
+          className="py-2 w-full rounded-lg bg-black text-white"
+          onClick={handleGenerate}
+        >
+          {generating ? "Generating..." : "Generate Blog"}
+        </button>
         <button
           type="submit"
           className="py-2 w-full rounded-lg bg-black text-white"
