@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const schema = z
   .object({
@@ -44,7 +44,6 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
     setMessage("");
 
     try {
-      console.log(data);
       const respose = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/users/auth/${type}`,
         data
