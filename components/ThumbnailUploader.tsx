@@ -55,7 +55,7 @@ const ThumbnailUploader = ({
     <div className="flex flex-col items-center gap-4">
       <div
         {...getRootProps()}
-        className={`border-2 border-dashed p-6 w-full h-40 flex flex-col items-center justify-center 
+        className={`border-2 border-dashed rounded-lg p-6 w-full h-40 flex flex-col items-center justify-center 
         ${
           isDragActive
             ? "border-blue-500 bg-blue-50"

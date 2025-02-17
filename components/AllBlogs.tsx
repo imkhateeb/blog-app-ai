@@ -51,6 +51,7 @@ const AllBlogs = () => {
             author_id: number;
             created_at: string;
             updated_at: string;
+            thumbnail: string;
           }) => (
             <BlogCard
               key={blog.id}
@@ -60,6 +61,7 @@ const AllBlogs = () => {
               created_at={blog.created_at}
               updated_at={blog.updated_at}
               blog_id={blog.id}
+              thumbnail={blog.thumbnail}
             />
           )
         )}

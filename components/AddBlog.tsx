@@ -105,6 +105,7 @@ const AddBlog = () => {
             onChange={(e) => setContent(e.target.value)}
             required
             className="border border-gray-300 rounded-md p-2"
+            rows={5}
           />
         </div>
         <ThumbnailUploader onUpload={handleThumbnailUpload} />
@@ -114,7 +115,7 @@ const AddBlog = () => {
           className="py-2 w-full rounded-lg bg-black text-white"
           onClick={handleGenerate}
         >
-          {generating ? "Generating..." : "Generate Blog"}
+          {generating ? "Generating..." : "Generate AI Blog"}
         </button>
         <button
           type="submit"
