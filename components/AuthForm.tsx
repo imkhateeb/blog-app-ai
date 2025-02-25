@@ -70,7 +70,8 @@ export default function AuthForm({ type }: { type: "login" | "register" }) {
           response.data?.refreshToken as string
         );
         localStorage.setItem("userId", response.data?.userId as string);
-        router.push("/blogs");
+        window.location.href = "/blogs";
+        
       } else {
         router.push("/sign-in");
       }
