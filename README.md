@@ -3,6 +3,7 @@
 ## Overview
 
 **BlogWise** is a full-stack Blog application built using **Next.js**, **PostgreSQL**, and **TailwindCSS**. This project demonstrates user and blog post management with authentication, role-based access control, and an interactive UI with modern React libraries.
+![Screenshot 2025-02-18 050621](https://github.com/user-attachments/assets/f4fc74c7-2a27-4b9d-b679-f29178c6dcc0)
 
 ## Features
 
