@@ -41,11 +41,7 @@ const BlogCard = ({
   };
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.3 }}
-    >
+    <motion.div whileTap={{ scale: 0.98 }} transition={{ duration: 0.3 }}>
       <Link
         href={`/blogs/${blog_id}`}
         className="flex gap-4 shadow-md rounded-lg p-4 h-[275px] bg-gray-100 dark:bg-black transition-all max-md:flex-col overflow-hidden"

@@ -6,16 +6,16 @@ import { useState } from "react";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  let userId: string | null = null;
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     if (window === undefined) return;
     setIsLoggedIn(!!localStorage.getItem("accessToken"));
-    userId = localStorage.getItem("userId");
+    setUserId(localStorage.getItem("userId"));
   }, []);
 
   return (
-    <div className="justify-center gap-8 p-4 w-[600px] max-sm:w-full bg-black text-white mx-auto rounded-b-3xl">
+    <div className="justify-center gap-8 p-4 w-full bg-black text-white">
       <div className="flex items-center justify-between">
         <Link href="/">
           <h1 className="text-xl font-bold">BlogWise</h1>

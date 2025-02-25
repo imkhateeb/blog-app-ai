@@ -6,20 +6,20 @@ import { useState } from "react";
 
 const HomeHeader = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  let userId: string | null = null;
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     if (window === undefined) return;
     setIsLoggedIn(!!localStorage.getItem("accessToken"));
-    userId = localStorage.getItem("userId");
+    setUserId(localStorage.getItem("userId"));
   }, []);
 
   return (
     <div className="bg-black">
-      <div className="justify-center gap-8 p-4 w-[600px] max-sm:w-full bg-white text-black mx-auto rounded-b-3xl">
+      <div className="justify-center gap-8 p-4 w-full bg-white text-black">
         <div className="flex items-center justify-between">
           <Link href="/">
-            <h1 className="text-xl font-bold">BlogWise</h1>
+            <h1 className="text-xl font-bold">BlogWise.</h1>
           </Link>
           <div className="flex gap-5 items-center">
             <Link href={"/"}>Home</Link>
